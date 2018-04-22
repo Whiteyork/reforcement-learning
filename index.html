@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Q-learning</title>
+  <style>
+    * {
+      margin: 0;
+      border: none;
+      padding: 0;
+    }
+    canvas {
+      /* position: absolute; */
+      border: 1px solid black;
+      margin: 20px 0 0 20px;
+    }
+    .container {
+      display: flex;
+    }
+    #menu {
+      display: flex;
+      height: 100%;
+      flex-direction: column;
+    }
+    #menu-mode{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 300px;
+    }
+    #menu-mode > div {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background: blue;
+      width: 80%;
+      margin: 10px;
+      border-radius: 10px;
+      font-family: Georgia;
+      font-weight: 800;
+      font-size: 20px;
+    }
+    #menu-mode>div:hover {
+      color: orange;
+      cursor: pointer;
+    }
+    #machine-learning {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    #machine-learning > div {
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background: pink;
+      width: 80%;
+      margin: 10px;
+      border-radius: 10px;
+      font-family: Georgia;
+      font-weight: 800;
+      font-size: 20px;
+    }
+    input {
+      display: block;
+      width: 200px;
+      height: 30px;
+      border: 3px solid orange;
+      border-radius: 5px;
+    }
+    #machine-learning > div:hover {
+      color: orange;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <canvas id="canvas"></canvas>
+    <div id="menu">
+      <div id="menu-mode">
+        <div id="square-mode" data-mode="map">画障碍物模式</div>
+        <div id="robot-mode" data-mode="robot">画机器人模式</div>
+        <div id="destination-mode" data-mode="target">画目标模式</div>
+      </div>
+
+      <div id="machine-learning">
+        学习速率<input type="text" value=0.1 id="alpha">
+        折扣因子<input type="text" value=0.9 id="lambda">
+        e-greedy<input type="text" value=0.9 id="greedy">
+        训练次数<input type="text" value=100 id="train-times">
+        <div id="train">训练</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('menu').addEventListener('click', function(e) {
+      window.mode = document.getElementById(e.target.id).dataset.mode
+    })
+    document.getElementById('train').addEventListener('click', function(e) {
+      let alpha = document.getElementById('alpha').value
+      let lambda = document.getElementById('lambda').value
+      let greedy = document.getElementById('greedy').value
+      let trainTimes = document.getElementById('train-times').value
+      console.log(alpha, lambda, greedy, trainTimes)
+
+      new Qlearning($robot, undefined, lambda, alpha, greedy).train(trainTimes)
+    })
+  </script>
+  <script src="utils.js"></script>
+  <script src="index.js"></script>
+  <script src="q-learning.js"></script>
+</body>
+</html>
